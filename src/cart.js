@@ -18,6 +18,35 @@ function total(lineItems) {
     }, 0);
 }
 
-module.exports = {
-    total: total
+/**
+ * 
+ * @param {Array<LineItem>} lineItems 
+ * @param {LineItem}        addedLineItem 
+ * @return {Array<LineItem>}
+ */
+
+function addItem(lineItems, addedLineItem) {
+    const foundLineItem = lineItems.find(function (item) {
+        return item.id === addedLineItem.id;
+    });
+
+    if (!foundLineItem) return lineItems.concat(addedLineItem);
+
+    return lineItems.map(function (item) {
+        if (item.id === addedLineItem.id) {
+            var newQty = item.qty + addedLineItem.qty;
+            return Object.assign({}, item, {
+                qty: newQty
+            });
+        }
+
+        return item;
+    })
 }
+
+
+
+module.exports = {
+    total: total,
+    addItem: addItem,
+};
